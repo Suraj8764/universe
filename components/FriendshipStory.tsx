@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Sparkles,
   Heart,
@@ -31,9 +32,15 @@ export default function FriendshipStory() {
   };
 
   return (
-    <section id="story" className="py-20 px-4 sm:px-6 md:px-8 max-w-6xl mx-auto relative">
+    <section id="story" className="py-24 px-4 sm:px-6 md:px-8 max-w-6xl mx-auto relative">
       {/* Section Header */}
-      <div className="text-center max-w-2xl mx-auto mb-16">
+      <motion.div
+        initial={{ opacity: 0, y: 25 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="text-center max-w-2xl mx-auto mb-16"
+      >
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pink-100/80 border border-pink-200 text-pink-700 text-xs font-semibold uppercase tracking-wider mb-3">
           <Sparkles className="w-3.5 h-3.5 text-pink-500" />
           <span>Our Journey Through Time</span>
@@ -45,7 +52,7 @@ export default function FriendshipStory() {
           Every great friendship is an epic story written one day, one laugh, and one shared secret at a time.
           Here is how our constellation came together.
         </p>
-      </div>
+      </motion.div>
 
       {/* Timeline Container */}
       <div className="relative">
@@ -60,26 +67,36 @@ export default function FriendshipStory() {
             const isExpanded = expandedId === milestone.id;
 
             return (
-              <div
+              <motion.div
                 key={milestone.id}
+                initial={{ opacity: 0, x: isEven ? -40 : 40, y: 20 }}
+                whileInView={{ opacity: 1, x: 0, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.8, type: "spring", bounce: 0.25 }}
                 className={`relative flex flex-col sm:flex-row items-start ${
                   isEven ? "sm:flex-row-reverse" : ""
                 }`}
               >
                 {/* Milestone Node on Spine */}
-                <div className="absolute left-6 sm:left-1/2 -translate-x-1/2 top-6 z-20 flex items-center justify-center">
-                  <div className="w-10 h-10 rounded-full bg-white border-2 border-pink-400 shadow-md flex items-center justify-center text-pink-500 group-hover:scale-110 transition-transform">
-                    <IconComponent className="w-4 h-4 fill-pink-100" />
+                <motion.div
+                  whileHover={{ scale: 1.25, rotate: 10 }}
+                  className="absolute left-6 sm:left-1/2 -translate-x-1/2 top-6 z-20 flex items-center justify-center cursor-pointer"
+                >
+                  <div className="w-11 h-11 rounded-full bg-white border-2 border-pink-400 shadow-md flex items-center justify-center text-pink-500">
+                    <IconComponent className="w-5 h-5 fill-pink-100" />
                   </div>
-                </div>
+                </motion.div>
 
-                {/* Content Card (Left or Right on desktop, offset on mobile) */}
+                {/* Content Card */}
                 <div
                   className={`w-full sm:w-[calc(50%-40px)] pl-14 sm:pl-0 ${
                     isEven ? "sm:pr-8 sm:text-right" : "sm:pl-8 sm:text-left"
                   }`}
                 >
-                  <div className="glass-card rounded-2xl p-6 sm:p-7 hover:shadow-xl transition-all duration-300 border border-white/80 relative overflow-hidden group">
+                  <motion.div
+                    whileHover={{ y: -4 }}
+                    className="glass-card rounded-3xl p-6 sm:p-8 hover:shadow-xl transition-all duration-300 border border-white/85 relative overflow-hidden group"
+                  >
                     {/* Top chapter badge & date */}
                     <div
                       className={`flex flex-wrap items-center gap-2 mb-3 ${
@@ -107,7 +124,7 @@ export default function FriendshipStory() {
 
                     {/* Quote callout box */}
                     <div
-                      className={`p-3.5 rounded-xl bg-pink-50/70 border-l-4 border-pink-400 text-stone-700 italic text-xs leading-relaxed flex items-start gap-2.5 mb-3 ${
+                      className={`p-3.5 rounded-2xl bg-pink-50/70 border-l-4 border-pink-400 text-stone-700 italic text-xs leading-relaxed flex items-start gap-2.5 mb-3 ${
                         isEven ? "sm:border-l-0 sm:border-r-4 sm:flex-row-reverse" : ""
                       }`}
                     >
@@ -132,21 +149,27 @@ export default function FriendshipStory() {
                       />
                     </button>
 
-                    {isExpanded && (
-                      <div className="mt-3 pt-3 border-t border-pink-100 text-xs text-stone-600 leading-relaxed animate-fadeIn">
-                        <p className="font-handwriting text-stone-700 text-sm">
-                          💌 Note to Ritu & Smurti: Whenever you look back at this chapter, remember
-                          how effortlessly everything fell into place. The best chapters of our
-                          friendship are still being written!
-                        </p>
-                      </div>
-                    )}
-                  </div>
+                    <AnimatePresence>
+                      {isExpanded && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="mt-3 pt-3 border-t border-pink-100 text-xs text-stone-600 leading-relaxed overflow-hidden"
+                        >
+                          <p className="font-handwriting text-stone-700 text-base">
+                            💌 Note to Ritu & Smurti: Whenever you look back at this chapter, remember
+                            how effortlessly everything fell into place. The best chapters of our
+                            friendship are still being written!
+                          </p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
                 </div>
 
-                {/* Empty slot on the other side for balance on desktop */}
                 <div className="hidden sm:block sm:w-[calc(50%-40px)]" />
-              </div>
+              </motion.div>
             );
           })}
         </div>

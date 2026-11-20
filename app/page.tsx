@@ -8,39 +8,46 @@ import SpecialMoments from "@/components/SpecialMoments";
 import FinalSurprise from "@/components/FinalSurprise";
 import Footer from "@/components/Footer";
 import FloatingHeartsCanvas from "@/components/FloatingHeartsCanvas";
+import SmoothScroll from "@/components/SmoothScroll";
+import StarlightTrail from "@/components/ui/StarlightTrail";
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen gradient-bg-universe overflow-hidden">
-      {/* Ambient Floating Hearts & Starlight Canvas */}
-      <FloatingHeartsCanvas />
+    <SmoothScroll>
+      <main className="relative min-h-screen gradient-bg-universe overflow-hidden">
+        {/* Vengeance UI Mouse Starlight & Heart Trail */}
+        <StarlightTrail />
 
-      {/* Floating Pill Header / Navigation */}
-      <Navbar />
+        {/* Ambient Floating Hearts & Starlight Canvas */}
+        <FloatingHeartsCanvas />
 
-      {/* 1. Hero / Welcome Section */}
-      <Hero />
+        {/* Floating Pill Header / Navigation */}
+        <Navbar />
 
-      {/* 2. Our Friendship Story Timeline */}
-      <FriendshipStory />
+        {/* 1. Hero / Welcome Section */}
+        <Hero />
 
-      {/* 3. Memory Wall Polaroid Gallery */}
-      <MemoryWall />
+        {/* 2. Our Friendship Story Timeline */}
+        <FriendshipStory />
 
-      {/* 4. Open When... Letters */}
-      <OpenWhenLetters />
+        {/* 3. Memory Wall Polaroid Gallery */}
+        <MemoryWall />
 
-      {/* 5. Friendship Quiz */}
-      <FriendshipQuiz />
+        {/* 4. Open When... Letters */}
+        <OpenWhenLetters />
 
-      {/* 6. Our Special Moments */}
-      <SpecialMoments />
+        {/* 5. Friendship Quiz */}
+        <FriendshipQuiz />
 
-      {/* 7. Final Surprise */}
-      <FinalSurprise />
+        {/* 6. Our Special Moments */}
+        <SpecialMoments />
 
-      {/* 8. Footer */}
-      <Footer />
-    </main>
+        {/* 7. Final Surprise */}
+        <FinalSurprise />
+
+        {/* 8. Footer */}
+        <Footer />
+      </main>
+    </SmoothScroll>
   );
 }
