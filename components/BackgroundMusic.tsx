@@ -6,14 +6,13 @@ import { Music, Volume2, VolumeX, Sparkles, Disc } from "lucide-react";
 export default function BackgroundMusic() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
-  const [volume, setVolume] = useState(0.5);
+  const [volume, setVolume] = useState(0.6);
   const [showVolumeSlider, setShowVolumeSlider] = useState(false);
-  const [selectedTrack, setSelectedTrack] = useState<"full" | "clip">("full");
 
   const audioElementRef = useRef<HTMLAudioElement | null>(null);
 
-  // Initialize audio element once on mount
   useEffect(() => {
+    // Recent Kalyani Remix downloaded song
     const audio = new Audio("/music/kalyani-song.mp3");
     audio.loop = true;
     audioElementRef.current = audio;
@@ -27,24 +26,7 @@ export default function BackgroundMusic() {
     };
   }, []);
 
-  // Update track source when selectedTrack changes
-  useEffect(() => {
-    const audio = audioElementRef.current;
-    if (!audio) return;
-
-    const newSrc =
-      selectedTrack === "full" ? "/music/kalyani-full.mp3" : "/music/kalyani-clip.mp3";
-
-    if (audio.src !== new URL(newSrc, window.location.href).href) {
-      const wasPlaying = !audio.paused;
-      audio.src = newSrc;
-      if (wasPlaying) {
-        audio.play().catch(() => setIsPlaying(false));
-      }
-    }
-  }, [selectedTrack]);
-
-  // Keep volume & mute synchronized
+  // Synchronize volume and mute states
   useEffect(() => {
     if (audioElementRef.current) {
       audioElementRef.current.volume = isMuted ? 0 : volume;
@@ -66,7 +48,7 @@ export default function BackgroundMusic() {
           setIsPlaying(true);
         })
         .catch((err) => {
-          console.error("Playback failed:", err);
+          console.error("Playback error:", err);
           setIsPlaying(false);
         });
     }
@@ -87,8 +69,8 @@ export default function BackgroundMusic() {
         <button
           onClick={togglePlay}
           className="flex items-center gap-2 text-xs font-medium text-stone-700 hover:text-pink-600 transition-colors focus:outline-none cursor-pointer"
-          title={isPlaying ? "Pause Kalyani song" : "Play Kalyani song"}
-          aria-label={isPlaying ? "Pause Kalyani song" : "Play Kalyani song"}
+          title={isPlaying ? "Pause Kalyani Remix" : "Play Kalyani Remix"}
+          aria-label={isPlaying ? "Pause Kalyani Remix" : "Play Kalyani Remix"}
         >
           <div
             className={`w-6 h-6 rounded-full flex items-center justify-center transition-all ${
@@ -142,9 +124,9 @@ export default function BackgroundMusic() {
               </button>
 
               {showVolumeSlider && (
-                <div className="absolute right-0 bottom-full mb-2 bg-white/95 backdrop-blur-md p-2.5 rounded-xl shadow-xl border border-pink-100 flex flex-col items-center z-50 min-w-[120px]">
+                <div className="absolute right-0 bottom-full mb-2 bg-white/95 backdrop-blur-md p-2.5 rounded-xl shadow-xl border border-pink-100 flex flex-col items-center z-50 min-w-[110px]">
                   <span className="text-[10px] text-stone-600 font-medium mb-1.5 flex items-center gap-1">
-                    <Music className="w-3 h-3 text-pink-500" /> Kalyani Song
+                    <Music className="w-3 h-3 text-pink-500" /> Kalyani Remix
                   </span>
                   <input
                     type="range"
@@ -155,35 +137,14 @@ export default function BackgroundMusic() {
                     onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
                     className="w-20 accent-pink-500 cursor-pointer"
                   />
-                  <div className="flex items-center gap-1 mt-2 pt-1 border-t border-pink-100 w-full justify-between">
-                    <button
-                      onClick={() => setSelectedTrack("full")}
-                      className={`text-[9px] px-1.5 py-0.5 rounded cursor-pointer transition-colors ${
-                        selectedTrack === "full"
-                          ? "bg-pink-500 text-white font-semibold"
-                          : "text-stone-500 hover:text-stone-800"
-                      }`}
-                    >
-                      Full (3m 54s)
-                    </button>
-                    <button
-                      onClick={() => setSelectedTrack("clip")}
-                      className={`text-[9px] px-1.5 py-0.5 rounded cursor-pointer transition-colors ${
-                        selectedTrack === "clip"
-                          ? "bg-pink-500 text-white font-semibold"
-                          : "text-stone-500 hover:text-stone-800"
-                      }`}
-                    >
-                      Clip (35s)
-                    </button>
-                  </div>
+                  <span className="text-[9px] text-stone-600 mt-1">Looping enabled</span>
                 </div>
               )}
             </div>
           </div>
         )}
 
-        {/* Tiny sparkle accent */}
+        {/* Sparkle Accent */}
         <span className="ml-1.5 text-pink-400">
           <Sparkles className="w-3 h-3 animate-pulse" />
         </span>
